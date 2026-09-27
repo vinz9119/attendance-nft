@@ -109,7 +109,7 @@ module sui_attendance_nft::attendance_test {
 			let desc = b"description".to_string();
             let image_id = b"image_url".to_string();
 			let tiers = 1;
-			let to_addr_vec = vector[@bob, @bob];
+			let to_addr_vec = vector[@bob, @fran];
 
 			mint_and_transfer_bulk(
 				&mut meet,
@@ -124,7 +124,10 @@ module sui_attendance_nft::attendance_test {
 			scenario.return_to_sender(meet);
 		};
         scenario.next_tx(@bob);
-        assert!(scenario.ids_for_sender<Attendance>().length() == 2, 0);
+        assert!(scenario.ids_for_sender<Attendance>().length() == 1, 0);
+
+        scenario.next_tx(@fran);
+        assert!(scenario.ids_for_sender<Attendance>().length() == 1, 1);
 
 		scenario.end();
 	}
